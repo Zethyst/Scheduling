@@ -8,11 +8,11 @@ void swap(int *arr, int i, int j)
 
 int main()
 {
-    int BT[20], P[20], WT[20], TAT[20], n, totalWT = 0, totalTAT = 0, temp;
+    int n, totalWT = 0, totalTAT = 0, temp;
     float avg_wt, avg_tat;
     printf("Enter number of process:");
     scanf("%d", &n);
-
+    int BT[n], P[n], WT[n], TAT[n];
     printf("\nEnter Burst Time:\n");
     for (int i = 0; i < n; i++)
     {
@@ -26,7 +26,7 @@ int main()
     {
         for (int j = i + 1; j < n; j++)
         {
-            if (BT[i] > BT[j])
+            if (BT[i] > BT[j] || (BT[i] == BT[j] && P[i] > P[j]))
             {
                 swap(BT, i, j);
                 swap(P, i, j);

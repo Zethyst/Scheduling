@@ -1,55 +1,74 @@
-// SJF scheduling program in c
-#include <string.h>
+#include <stdio.h>
+
+void swap(int *arr, int i, int j)
+{
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
 int main()
 {
-    int bt[20], at[10], n, i, j, temp, st[10], ft[10], wt[10], ta[10];
-    int totwt = 0, totta = 0;
-    double awt, ata;
-    char pn[10][10], t[10];
-    // clrscr();
-    printf("Enter the number of process:");
+    float avg_wt, avg_tat;
+    int n;
+    printf("Enter number of process:");
     scanf("%d", &n);
-    for (i = 0; i < n; i++)
+    int BT[n], AT[n], P[n], WT[n], TAT[n], CT[n], totalWT = 0, totalTAT = 0, min, temp;
+
+    printf("\nEnter Burst Time:\n");
+    for (int i = 0; i < n; i++)
     {
-        printf("Enter process name, arrival time& burst time:");
-        scanf("%s%d%d", pn[i], &at[i], &bt[i]);
+        printf("Process %d: ", i + 1);
+        scanf("%d", &BT[i]);
+        P[i] = i + 1;
     }
-    for (i = 0; i < n; i++)
-        for (j = 0; j < n; j++)
+    printf("\nEnter Arrival Time:\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &AT[i]);
+    }
+
+    // sorting according to arrival time
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
         {
-            if (bt[i] < bt[j])
+            if (AT[i] == AT[j])
             {
-                temp = at[i];
-                at[i] = at[j];
-                at[j] = temp;
-                temp = bt[i];
-                bt[i] = bt[j];
-                bt[j] = temp;
-                strcpy(t, pn[i]);
-                strcpy(pn[i], pn[j]);
-                strcpy(pn[j], t);
+                if (BT[i] > BT[j])
+                {
+                    swap(BT, i, j);
+                    swap(P, i, j);
+                }
+            }
+            else if (AT[i] > AT[j])
+            {
+                swap(AT, i, j);
+                swap(BT, i, j);
+                swap(P, i, j);
             }
         }
-    for (i = 0; i < n; i++)
-    {
-        if (i == 0)
-            st[i] = at[i];
-        else
-            st[i] = ft[i - 1];
-        wt[i] = st[i] - at[i];
-        ft[i] = st[i] + bt[i];
-        ta[i] = ft[i] - at[i];
-        totwt += wt[i];
-        totta += ta[i];
     }
-    awt = (double)totwt / n;
-    ata = (double)totta / n;
-    printf("\nProcessname\tarrivaltime\tbursttime\twaitingtime\tturnaroundtime");
-    for (i = 0; i < n; i++)
+    int run = 0,sum=AT[0];
+    for (int i = 0; i < n; i++)
     {
-        printf("\n%s\t%5d\t\t%5d\t\t%5d\t\t%5d", pn[i], at[i], bt[i], wt[i], ta[i]);
+        sum += BT[i];
+        CT[i] = sum;
+        TAT[i] = CT[i] - AT[i];
+        WT[i] = TAT[i] - BT[i];
+        totalWT += WT[i];
+        totalTAT += TAT[i];
     }
-    printf("\nAverage waiting time: %f", awt);
-    printf("\nAverage turnaroundtime: %f", ata);
-    return 0;
+
+    avg_wt = (float)totalWT / n;
+
+    printf("\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time");
+    for (int i = 0; i < n; i++)
+    {
+        printf("\np%d\t\t %d\t\t %d\t\t\t%d", P[i], BT[i], WT[i], TAT[i]);
+    }
+
+    avg_tat = (float)totalTAT / n;
+    printf("\n\nAverage Waiting Time=%.2f", avg_wt);
+    printf("\nAverage Turnaround Time=%.2f", avg_tat);
 }
