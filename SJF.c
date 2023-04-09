@@ -59,12 +59,12 @@ int main()
         else
         {
             // designing a code which gives the process to execute
-            for (int j = i; j < run - 1; j++)
+            for (int j = i; j < run - 1; j++)  //run - 1 becoz k=j+1 might give out of range arrival process
             {
                 min = j;
                 for (int k = j + 1; k < run; k++)
                 {
-                    if (k >= n)
+                    if (k >= n)  //ensuring k never goes out of size n and gives garbage
                     {
                         goto label;
                     }

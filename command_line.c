@@ -8,3 +8,7 @@ int main(int argc, char *argv[])
     }
     return 0;
 }
+
+// to run:
+// gcc command_line.c -o main
+// ./main Nocturnal Coder

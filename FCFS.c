@@ -3,6 +3,7 @@ int main(void)
 {
     int AT[5] = {2, 5, 1, 0, 4};
     int BT[5] = {6, 2, 8, 3, 4};
+    int P[5] =  {1, 2, 3, 4, 5};
     int WT[5], CT[5], TAT[5];
     int sum = 0;
     int sumTAT = 0, sumWT = 0;
@@ -24,7 +25,7 @@ int main(void)
         CT[i] = sum;
         TAT[i] = CT[i] - AT[min];
         WT[i] = TAT[i] - BT[min];
-        printf("%d\t%d\t%d\t%d\t%d\t%d\n", (i + 1), AT[min], BT[min], CT[i], TAT[i], WT[i]);
+        printf("%d\t%d\t%d\t%d\t%d\t%d\n", P[min], AT[min], BT[min], CT[i], TAT[i], WT[i]);
 
         sumTAT += TAT[i];
         sumWT += WT[i];
@@ -36,6 +37,11 @@ int main(void)
         temp = BT[min];
         BT[min] = BT[i];
         BT[i] = temp;
+        //doing the same for process id
+        temp = P[min];
+        P[min] = P[i];
+        P[i] = temp;
+
 
     }
     printf("\nAverage Turnaround Time: %d\n", (sumTAT/5));
