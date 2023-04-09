@@ -1,0 +1,46 @@
+#include <stdio.h>
+int main(void)
+{
+    float avg_wt, avg_tat;
+    int n;
+    printf("Enter number of process:");
+    scanf("%d", &n);
+    int BT[n], BT_remaining[n], AT[n], P[n], WT[n], TAT[n], CT[n], totalWT = 0, totalTAT = 0, min, temp;
+    int completed = 0, sum = 0, min_index,is_completed[n];
+    printf("\nEnter Burst Time:\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &BT[i]);
+        BT_remaining[i] = BT[i];
+        is_completed[i]=0;
+        P[i] = i + 1;
+    }
+    printf("\nEnter Arrival Time:\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &AT[i]);
+    }
+    while (completed <= n)
+    {
+        min_index = -1;
+        min = __INT_MAX__;
+        for (int i = 0; i < n; i++)
+        {
+            if (AT[i]<=sum && is_completed[i]==0)
+            {
+                if (min>BT_remaining[i])
+                {
+                    min=BT_remaining[i];
+                    min_index=i;
+                }
+                
+            }
+            
+        }
+        
+    }
+
+    return 0;
+}
