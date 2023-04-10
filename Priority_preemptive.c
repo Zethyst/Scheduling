@@ -1,15 +1,16 @@
 #include <stdio.h>
+#include <limits.h>
 #include <stdbool.h>
 
 int main(void)
 {
     float avg_wt, avg_tat;
-    int n;
+    int n, priority;
     bool is_completed[10] = {false};
     int current_time = 0, completed = 0;
     printf("Enter number of process:");
     scanf("%d", &n);
-    int BT[n], BT_remaining[n], AT[n], P[n], WT[n], TAT[n], CT[n], totalWT = 0, totalTAT = 0;
+    int BT[n], BT_remaining[n], AT[n], P[n], Pr[n], WT[n], TAT[n], CT[n], totalWT = 0, totalTAT = 0;
 
     printf("\nEnter Burst Time:\n");
     for (int i = 0; i < n; i++)
@@ -25,25 +26,36 @@ int main(void)
         printf("Process %d: ", i + 1);
         scanf("%d", &AT[i]);
     }
+    printf("\nEnter Priority: \n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &Pr[i]);
+    }
     while (completed != n) //! Loop till all processes are completed
     {
         int min_index = -1;
         int minimum = __INT_MAX__;
+        int minimum_priority = INT_MIN;
         for (int i = 0; i < n; i++)
         {
-            if (AT[i] <= current_time && is_completed[i] == 0)
+            if (AT[i] <= current_time && is_completed[i] == 0) // process must be sorted order according to arrival time
 
             {
-                if (BT_remaining[i] < minimum)
+                if (Pr[i] > minimum_priority)
                 {
+
                     minimum = BT_remaining[i];
+                    minimum_priority = Pr[i];
                     min_index = i;
                 }
-                if (BT_remaining[i] == minimum)
+
+                if (Pr[i] == minimum_priority)
                 {
                     if (AT[i] < AT[min_index])
                     {
                         minimum = BT_remaining[i];
+                        minimum_priority = Pr[i];
                         min_index = i;
                     }
                 }
@@ -76,10 +88,10 @@ int main(void)
     avg_tat = (float)totalTAT / n;
     avg_wt = (float)totalWT / n;
 
-    printf("\nProcess\tArival Time\tBurst Time\tWaiting Time\tTurnaround Time");
+    printf("\nProcess\tArival Time\tBurst Time\tPriority\tCompletion Time\tTurnaround Time\tWaiting Time");
     for (int i = 0; i < n; i++)
     {
-        printf("\np%d\t\t %d\t%d\t\t %d\t\t\t%d", P[i], AT[i], BT[i], WT[i], TAT[i]);
+        printf("\np%d\t\t %d\t%d\t\t%d\t\t%d\t\t %d\t\t\t%d", P[i], AT[i], BT[i], Pr[i], CT[i], TAT[i], WT[i]);
     }
 
     printf("\n\nAverage Waiting Time=%.2f", avg_wt);
